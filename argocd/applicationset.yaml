@@ -1,0 +1,32 @@
+# TP19 partie 4 : une Application par dossier envs/* (dev, staging, prod).
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: whoami
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - git:
+        repoURL: https://github.com/wissalelkouk/tp19-gitops.git
+        revision: main
+        directories:
+          - path: envs/*
+  template:
+    metadata:
+      name: "whoami-{{ .path.basename }}"
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/wissalelkouk/tp19-gitops.git
+        targetRevision: main
+        path: "{{ .path.path }}"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "whoami-{{ .path.basename }}"
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+        # TODO : automated (prune + selfHeal) pour dev et staging seulement ?
+        #        Réfléchissez : faut-il synchroniser automatiquement la prod ? (partie 5)

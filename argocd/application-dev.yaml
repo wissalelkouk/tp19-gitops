@@ -1,0 +1,19 @@
+# TP19 partie 2 : première Application Argo CD (environnement dev uniquement).
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: whoami-dev
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/wissalelkouk/tp19-gitops.git
+    targetRevision: main
+    path: envs/dev
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: whoami-dev
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    # TODO (partie 3) : synchronisation automatique avec prune et selfHeal
