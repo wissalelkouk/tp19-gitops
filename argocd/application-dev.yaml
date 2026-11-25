@@ -13,7 +13,9 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: whoami-dev
-  syncPolicy:
+    syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
-    # TODO (partie 3) : synchronisation automatique avec prune et selfHeal
