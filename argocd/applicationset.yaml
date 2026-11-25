@@ -28,5 +28,11 @@ spec:
       syncPolicy:
         syncOptions:
           - CreateNamespace=true
-        # TODO : automated (prune + selfHeal) pour dev et staging seulement ?
-        #        Réfléchissez : faut-il synchroniser automatiquement la prod ? (partie 5)
+  templatePatch: |
+    {{- if ne .path.basename "prod" }}
+    spec:
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+    {{- end }}
