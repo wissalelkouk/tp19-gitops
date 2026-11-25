@@ -13,7 +13,7 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: whoami-dev
-    syncPolicy:
+  syncPolicy:
     automated:
       prune: true
       selfHeal: true
