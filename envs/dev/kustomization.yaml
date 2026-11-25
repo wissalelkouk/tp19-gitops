@@ -14,7 +14,7 @@ configMapGenerator:
 
 replicas:
   - name: whoami
-    count: 1
+    count: 2
 
 # La version déployée dans l'environnement : c'est CETTE ligne que l'on promeut.
 images:
